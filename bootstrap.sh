@@ -14,10 +14,14 @@ update-java-alternatives -s java-8-oracle
 wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/5.0.0-alpha4/elasticsearch-5.0.0-alpha4.tar.gz
 wget https://download.elastic.co/kibana/kibana/kibana-5.0.0-alpha4-linux-x64.tar.gz
 wget https://download.elastic.co/logstash/logstash/logstash-5.0.0-alpha4.tar.gz
+wget https://download.elastic.co/beats/metricbeat/metricbeat-5.0.0-alpha4-linux-x86_64.tar.gz
+wget https://download.elastic.co/beats/packetbeat/packetbeat-5.0.0-alpha4-linux-x86_64.tar.gz
+wget https://download.elastic.co/beats/filebeat/filebeat-5.0.0-alpha4-linux-x86_64.tar.gz
+
 
 sudo -u vagrant bash -c 'for f in *.tar.gz; do tar xf $f; done'
 
-# Disable shield and graph
+# Disable shield
 cat <<ES_CONF > /opt/elastic/elasticsearch-5.0.0-alpha4/config/elasticsearch.yml
 xpack.security.enabled: false
 ES_CONF
