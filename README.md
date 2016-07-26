@@ -2,7 +2,7 @@
 
 ## Intro
 
-Vagrant script to provision Elastic Stack:
+Vagrant script to provision [Elastic Stack](https://www.elastic.co/v5):
 * Elasticsearch
 * Logstash
 * Kibana
@@ -12,7 +12,7 @@ Vagrant script to provision Elastic Stack:
   * Metricbeat
 * X-Pack (Shield disabled)
 
-All software is installed in /opt/elastic.
+All software is installed in `/opt/elastic`.
 Oracle Java 8 JDK is also installed.
 
 VM is configured as private network since Vagrant port forwarding
