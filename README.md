@@ -21,6 +21,7 @@ allowing localhost access. IP address of 192.168.56.5 is assigned.
 
 ## Steps
 
+* Install [Vagrant](https://www.vagrantup.com/docs/installation/)
 * Clone this repo
 * Run `vagrant up`
 
