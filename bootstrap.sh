@@ -22,10 +22,10 @@ wget https://download.elastic.co/beats/filebeat/filebeat-5.0.0-alpha4-linux-x86_
 sudo -u vagrant bash -c 'for f in *.tar.gz; do tar xf $f; done'
 
 # Disable shield
-cat <<ES_CONF > /opt/elastic/elasticsearch-5.0.0-alpha4/config/elasticsearch.yml
+cat <<ES_CONF >> /opt/elastic/elasticsearch-5.0.0-alpha4/config/elasticsearch.yml
 xpack.security.enabled: false
 ES_CONF
-cat <<KIBANA_CONF > /opt/elastic/kibana-5.0.0-alpha4-linux-x64/config/kibana.yml
+cat <<KIBANA_CONF >> /opt/elastic/kibana-5.0.0-alpha4-linux-x64/config/kibana.yml
 xpack.security.enabled: false
 KIBANA_CONF
 
