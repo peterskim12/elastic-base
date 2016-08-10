@@ -19,6 +19,12 @@ VM is configured as private network since Vagrant port forwarding
 does not work with default Elasticsearch network setting of only
 allowing localhost access. IP address of 192.168.56.5 is assigned.
 
+## Prereqs
+
+The Vagrantfile will provision 3GB of RAM to the VM. If your machine doesn't
+have enough RAM to support running a VM of that size, you can modify
+this in the Vagrant file.
+
 ## Steps
 
 * Install [Vagrant](https://www.vagrantup.com/docs/installation/)
