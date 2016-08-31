@@ -2,7 +2,7 @@
 
 ## Intro
 
-Vagrant script to provision [Elastic Stack](https://www.elastic.co/v5):
+Vagrant script to provision [Elastic Stack](https://www.elastic.co/products):
 * Elasticsearch
 * Logstash
 * Kibana
