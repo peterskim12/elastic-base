@@ -13,35 +13,29 @@ apt-get -y -q install oracle-java8-installer
 update-java-alternatives -s java-8-oracle
 
 # Download the Elastic product tarballs
-wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/5.0.0-alpha5/elasticsearch-5.0.0-alpha5.tar.gz
-wget https://download.elastic.co/kibana/kibana/kibana-5.0.0-alpha5-linux-x86_64.tar.gz
-wget https://download.elastic.co/logstash/logstash/logstash-5.0.0-alpha5.tar.gz
-wget https://download.elastic.co/beats/metricbeat/metricbeat-5.0.0-alpha5-linux-x86_64.tar.gz
-wget https://download.elastic.co/beats/packetbeat/packetbeat-5.0.0-alpha5-linux-x86_64.tar.gz
-wget https://download.elastic.co/beats/filebeat/filebeat-5.0.0-alpha5-linux-x86_64.tar.gz
+wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.4.0/elasticsearch-2.4.0.tar.gz
+wget https://download.elastic.co/kibana/kibana/kibana-4.6.0-linux-x86_64.tar.gz
+wget https://download.elastic.co/logstash/logstash/logstash-2.4.0.tar.gz
+wget https://download.elastic.co/beats/topbeat/topbeat-1.3.0-x86_64.tar.gz
+wget https://download.elastic.co/beats/packetbeat/packetbeat-1.3.0-x86_64.tar.gz
+wget https://download.elastic.co/beats/filebeat/filebeat-1.3.0-x86_64.tar.gz
 
 # Untar the bits
 sudo -u vagrant bash -c 'for f in *.tar.gz; do tar xf $f; done'
 
-# Disable shield
-cat <<ES_CONF >> /opt/elastic/elasticsearch-5.0.0-alpha5/config/elasticsearch.yml
-xpack.security.enabled: false
-ES_CONF
-cat <<KIBANA_CONF >> /opt/elastic/kibana-5.0.0-alpha5-linux-x86_64/config/kibana.yml
-xpack.security.enabled: false
+# Add required encryptionKey for Reporting
+cat <<KIBANA_CONF >> /opt/elastic/kibana-4.6.0-linux-x86_64/config/kibana.yml
+reporting.encryptionKey: "FeelTheBern"
 KIBANA_CONF
 
-# Recommended ES settings to pass bootstrap checks
+# Recommended ES settings
 # START BOOTSTRAP CHECKS CONFIG CHANGES #
-cat <<ES_CONF >> /opt/elastic/elasticsearch-5.0.0-alpha5/config/elasticsearch.yml
+cat <<ES_CONF >> /opt/elastic/elasticsearch-2.4.0/config/elasticsearch.yml
 network.host: [_local_, _eth1_]
 
-bootstrap.memory_lock: true
+bootstrap.mlockall: true
 discovery.zen.minimum_master_nodes: 1
 ES_CONF
-
-sed -i -e 's/Xms256m/Xms512m/g' /opt/elastic/elasticsearch-5.0.0-alpha5/config/jvm.options
-sed -i -e 's/Xmx2g/Xmx512m/g' /opt/elastic/elasticsearch-5.0.0-alpha5/config/jvm.options
 
 sysctl -w vm.max_map_count=262144
 cat <<SYSCTL >> /etc/sysctl.conf
@@ -72,14 +66,25 @@ root           hard    as        unlimited
 SECLIMITS
 # END BOOTSTRAP CHECKS CONFIG CHANGES #
 
-# Install X-Pack in Elasticsearch
-cd /opt/elastic/elasticsearch-5.0.0-alpha5
-sudo -u vagrant bash -c 'bin/elasticsearch-plugin install x-pack --batch'
+# Install license plugin
+cd /opt/elastic/elasticsearch-2.4.0
+sudo -u vagrant bash -c 'bin/plugin install elasticsearch/license/latest'
+
+# Install Watcher in Elasticsearch
+sudo -u vagrant bash -c 'bin/plugin install elasticsearch/watcher/latest'
+# Install Marvel in Elasticsearch
+sudo -u vagrant bash -c 'bin/plugin install marvel-agent'
+# Install Graph in Elasticsearch
+sudo -u vagrant bash -c 'bin/plugin install graph'
+
 # Run Elasticsearch
 sudo -u vagrant nohup bash -c 'bin/elasticsearch' <&- &>/dev/null &
 
-# Install X-Pack in Kibana
-cd /opt/elastic/kibana-5.0.0-alpha5-linux-x86_64
-sudo -u vagrant bash -c 'bin/kibana-plugin install x-pack'
+# Install Marvel, Graph and Reporting in Kibana
+cd /opt/elastic/kibana-4.6.0-linux-x86_64
+sudo -u vagrant bash -c 'bin/kibana plugin --install elasticsearch/marvel/latest'
+sudo -u vagrant bash -c 'bin/kibana plugin --install kibana/reporting/latest'
+sudo -u vagrant bash -c 'bin/kibana plugin --install elasticsearch/graph/latest'
+
 # Run Kibana
 sudo -u vagrant nohup bash -c 'bin/kibana' <&- &>/dev/null &
