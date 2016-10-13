@@ -13,36 +13,33 @@ apt-get -y -q install oracle-java8-installer
 update-java-alternatives -s java-8-oracle
 
 # Download the Elastic product tarballs
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.0.0-beta1.tar.gz
-wget https://artifacts.elastic.co/downloads/kibana/kibana-5.0.0-beta1-linux-x86_64.tar.gz
-wget https://artifacts.elastic.co/downloads/logstash/logstash-5.0.0-beta1.tar.gz
-wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-5.0.0-beta1-linux-x86_64.tar.gz
-wget https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-5.0.0-beta1-linux-x86_64.tar.gz
-wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.0.0-beta1-linux-x86_64.tar.gz
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.0.0-rc1.tar.gz
+wget https://artifacts.elastic.co/downloads/kibana/kibana-5.0.0-rc1-linux-x86_64.tar.gz
+wget https://artifacts.elastic.co/downloads/logstash/logstash-5.0.0-rc1.tar.gz
+wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-5.0.0-rc1-linux-x86_64.tar.gz
+wget https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-5.0.0-rc1-linux-x86_64.tar.gz
+wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.0.0-rc1-linux-x86_64.tar.gz
 
 # Untar the bits
 sudo -u vagrant bash -c 'for f in *.tar.gz; do tar xf $f; done'
 
-# Disable shield
-cat <<ES_CONF >> /opt/elastic/elasticsearch-5.0.0-beta1/config/elasticsearch.yml
-xpack.security.enabled: false
-ES_CONF
-cat <<KIBANA_CONF >> /opt/elastic/kibana-5.0.0-beta1-linux-x86_64/config/kibana.yml
+# Allow all requests to Kibana
+cat <<KIBANA_CONF >> /opt/elastic/kibana-5.0.0-rc1-linux-x86_64/config/kibana.yml
 server.host: "0.0.0.0"
-xpack.security.enabled: false
 KIBANA_CONF
 
 # Recommended ES settings to pass bootstrap checks
 # START BOOTSTRAP CHECKS CONFIG CHANGES #
-cat <<ES_CONF >> /opt/elastic/elasticsearch-5.0.0-beta1/config/elasticsearch.yml
+cat <<ES_CONF >> /opt/elastic/elasticsearch-5.0.0-rc1/config/elasticsearch.yml
 network.host: [_local_, _eth1_]
+path.repo: ["/vagrant/es_snapshots"]
 
 bootstrap.memory_lock: true
 discovery.zen.minimum_master_nodes: 1
 ES_CONF
 
-sed -i -e 's/Xms2g/Xms512m/g' /opt/elastic/elasticsearch-5.0.0-beta1/config/jvm.options
-sed -i -e 's/Xmx2g/Xmx512m/g' /opt/elastic/elasticsearch-5.0.0-beta1/config/jvm.options
+sed -i -e 's/Xms2g/Xms512m/g' /opt/elastic/elasticsearch-5.0.0-rc1/config/jvm.options
+sed -i -e 's/Xmx2g/Xmx512m/g' /opt/elastic/elasticsearch-5.0.0-rc1/config/jvm.options
 
 sysctl -w vm.max_map_count=262144
 cat <<SYSCTL >> /etc/sysctl.conf
@@ -74,13 +71,13 @@ SECLIMITS
 # END BOOTSTRAP CHECKS CONFIG CHANGES #
 
 # Install X-Pack in Elasticsearch
-cd /opt/elastic/elasticsearch-5.0.0-beta1
+cd /opt/elastic/elasticsearch-5.0.0-rc1
 sudo -u vagrant bash -c 'bin/elasticsearch-plugin install x-pack --batch'
 # Run Elasticsearch
 sudo -u vagrant nohup bash -c 'bin/elasticsearch' <&- &>/dev/null &
 
 # Install X-Pack in Kibana
-cd /opt/elastic/kibana-5.0.0-beta1-linux-x86_64
+cd /opt/elastic/kibana-5.0.0-rc1-linux-x86_64
 sudo -u vagrant bash -c 'bin/kibana-plugin install x-pack'
 # Run Kibana
 sudo -u vagrant nohup bash -c 'bin/kibana' <&- &>/dev/null &

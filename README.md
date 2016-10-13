@@ -10,7 +10,7 @@ Vagrant script to provision [Elastic Stack](https://www.elastic.co/v5):
   * Packetbeat
   * Filebeat
   * Metricbeat
-* X-Pack (Shield disabled)
+* X-Pack
 
 All software is installed in `/opt/elastic`.
 Oracle Java 8 JDK is also installed.
