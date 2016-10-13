@@ -19,6 +19,8 @@ VM is configured as private network since Vagrant port forwarding
 does not work with default Elasticsearch network setting of only
 allowing localhost access. IP address of 192.168.56.5 is assigned.
 
+Default u/p for Elasticsearch: elastic/changeme
+
 ## Prereqs
 
 The Vagrantfile will provision 3GB of RAM to the VM. If your machine doesn't
