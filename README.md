@@ -54,3 +54,23 @@ Over time, as you work on different projects, just clone the elastic-base
 project to another directory, place the project-specific files in that dir,
 and you have an Elastic Stack environment specific for that project that
 isn't muddled with configs and indexes from other projects.
+
+## Snapshot and restore
+
+Use the snapshot.sh and restore.sh scripts to migrate data from one environment
+to another.
+
+### snapshot.sh
+
+* If necessary, copy snapshot.sh to your previous environment.
+* Ensure Elasticsearch is running.
+* Run snapshot.sh within the guest OS. This will write the snapshot files
+in your es_snapshots directory.
+
+When the snapshot operation is complete, copy the my_backup files from the
+es_snapshots directory in your previous environment to the es_snapshots dir in
+your new environment.
+
+### restore.sh
+
+Within the guest OS of your new environment, run restore.sh.

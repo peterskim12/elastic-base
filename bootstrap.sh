@@ -74,10 +74,10 @@ SECLIMITS
 cd /opt/elastic/elasticsearch-5.1.1
 sudo -u vagrant bash -c 'bin/elasticsearch-plugin install x-pack --batch'
 # Run Elasticsearch
-sudo -u vagrant nohup bash -c 'bin/elasticsearch' <&- &>/dev/null &
+# sudo -u vagrant nohup bash -c 'bin/elasticsearch' <&- &>/dev/null &
 
 # Install X-Pack in Kibana
 cd /opt/elastic/kibana-5.1.1-linux-x86_64
 sudo -u vagrant bash -c 'bin/kibana-plugin install x-pack'
 # Run Kibana
-sudo -u vagrant nohup bash -c 'bin/kibana' <&- &>/dev/null &
+# sudo -u vagrant nohup bash -c 'bin/kibana' <&- &>/dev/null &
