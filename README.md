@@ -29,9 +29,14 @@ this in the Vagrant file.
 
 ## Steps
 
-* Install [Vagrant](https://www.vagrantup.com/docs/installation/)
-* Clone this repo
+* Install VirtualBox (if you haven't already)
+* Install [Vagrant](https://www.vagrantup.com/docs/installation/) (if you haven't already)
+* Clone this repo or [download a release](https://github.com/peterskim12/elastic-base/releases)
 * Run `vagrant up`
+* Run `vagrant ssh` to log into the VM
+
+You can communicate with Elasticsearch on http://192.168.56.5:9200 or hit
+Kibana at http://192.168.56.5:5601.
 
 For more information on Vagrant, check out their [documentation](https://www.vagrantup.com/docs/).
 
