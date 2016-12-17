@@ -9,7 +9,7 @@ Vagrant script to provision [Elastic Stack](https://www.elastic.co/products):
 * Beats
   * Packetbeat
   * Filebeat
-  * Topbeat
+  * Metricbeat
 * Commercial plugins
   * Marvel
   * Watcher
