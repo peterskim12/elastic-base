@@ -5,12 +5,9 @@ mkdir /opt/elastic
 chown vagrant:vagrant /opt/elastic
 cd /opt/elastic
 
-# Install Oracle JDK 8
-add-apt-repository -y ppa:webupd8team/java
+# Install OpenJDK 8
 apt-get -y -q update
-echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-apt-get -y -q install oracle-java8-installer
-update-java-alternatives -s java-8-oracle
+apt-get -y -q install openjdk-8-jdk
 
 # Download the Elastic product tarballs
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.1.1.tar.gz
