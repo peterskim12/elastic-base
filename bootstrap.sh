@@ -6,11 +6,8 @@ chown vagrant:vagrant /opt/elastic
 cd /opt/elastic
 
 # Install Oracle JDK 8
-add-apt-repository -y ppa:webupd8team/java
 apt-get -y -q update
-echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-apt-get -y -q install oracle-java8-installer
-update-java-alternatives -s java-8-oracle
+apt-get -y -q install openjdk-8-jdk
 
 # Download the Elastic product tarballs
 wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.4.3/elasticsearch-2.4.3.tar.gz
