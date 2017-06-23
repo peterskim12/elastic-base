@@ -13,7 +13,7 @@ Vagrant script to provision [Elastic Stack](https://www.elastic.co/v5):
 * X-Pack
 
 All software is installed in `/opt/elastic`.
-Oracle Java 8 JDK is also installed.
+OpenJDK 8 is also installed.
 
 VM is configured as private network since Vagrant port forwarding
 does not work with default Elasticsearch network setting of only
