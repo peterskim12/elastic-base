@@ -19,7 +19,10 @@ VM is configured as private network since Vagrant port forwarding
 does not work with default Elasticsearch network setting of only
 allowing localhost access. IP address of 192.168.56.5 is assigned.
 
-Default u/p for Elasticsearch: elastic/changeme
+Starting with Elastic 6.0, X-Pack Security no longer provides a default
+password. This project's bootstrap.sh script will run the setup-passwords
+utility, save them to /opt/elastic/passwords.txt, and update the logstash.yml
+and kibana.yml files with the generated passwords.
 
 ## Prereqs
 

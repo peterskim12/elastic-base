@@ -98,12 +98,12 @@ sudo -u vagrant nohup bash -c 'bin/elasticsearch' <&- &>/dev/null &
 sleep 30
 
 # Generate system user passwords
-sudo -u vagrant bash -c 'bin/x-pack/setup-passwords auto --batch > passwords.txt'
+sudo -u vagrant bash -c 'bin/x-pack/setup-passwords auto --batch > /opt/elastic/passwords.txt'
 
 # Write generated passwords to config files
-elasticpwd=$(sed -n 's/PASSWORD elastic = \(.\+\)/\1/p' passwords.txt)
-kibanapwd=$(sed -n 's/PASSWORD kibana = \(.\+\)/\1/p' passwords.txt)
-logstashpwd=$(sed -n 's/PASSWORD logstash_system = \(.\+\)/\1/p' passwords.txt)
+elasticpwd=$(sed -n 's/PASSWORD elastic = \(.\+\)/\1/p' /opt/elastic/passwords.txt)
+kibanapwd=$(sed -n 's/PASSWORD kibana = \(.\+\)/\1/p' /opt/elastic/passwords.txt)
+logstashpwd=$(sed -n 's/PASSWORD logstash_system = \(.\+\)/\1/p' /opt/elastic/passwords.txt)
 
 cat <<KIBANA_CONF >> /opt/elastic/kibana-6.0.0-beta2-linux-x86_64/config/kibana.yml
 elasticsearch.username: kibana
